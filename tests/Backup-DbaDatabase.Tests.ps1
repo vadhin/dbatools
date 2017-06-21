@@ -1,6 +1,6 @@
 ﻿Describe "Backup-DbaDatabase Integration Tests" -Tags "Integrationtests" {
 	Context "Properly Backup a database on the local drive using Path" {
-		$results = Backup-DbaDatabase -SqlInstance localhost -BackupDirectory C:\temp\backups
+		$results = Backup-DbaDatabase -SqlInstance localhost -BackupDirectory C:\temp\backups -Database master
 		It "Should return a database name, specifically master" {
 			($results.DatabaseName -contains 'master') | Should Be $true
 		}
@@ -31,6 +31,7 @@
 	}
 	
 	Context "Backup can pipe to restore" {
+		Remove-DbaDatabase -SqlServer localhost -Database SingleRestore | out-null
 		$null = Restore-DbaDatabase -SqlServer localhost -Path C:\github\appveyor-lab\singlerestore\singlerestore.bak -withreplace
 		$results = Backup-DbaDatabase -SqlInstance localhost -BackupDirectory C:\temp\backups -Database singlerestore | Restore-DbaDatabase -SqlInstance localhost\sql2016 -withreplace
 		
