@@ -331,7 +331,8 @@
 		'Get-DbaDatabasePartitionScheme',
 		'Get-DbaErrorLog',
 		'Get-DbaDefaultPath',
-		'Get-DbaDbStoredProcedure'
+		'Get-DbaDbStoredProcedure',
+		'Get-DbaBackupInformation'
 	)
 	
 	# Cmdlets to export from this module

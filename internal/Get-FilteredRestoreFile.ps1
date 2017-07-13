@@ -129,9 +129,9 @@ function Get-FilteredRestoreFile {
             }
             $internalFiles = $tmpInternalFiles
             
-            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -eq 'Full' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Database" } }, @{ Name = "BackupType"; Expression = { "1" } }
-            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -eq 'Log' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Transaction Log" } }, @{ Name = "BackupType"; Expression = { "2" } }
-            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -eq 'Differential' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Database Differential" } }, @{ Name = "BackupType"; Expression = { "5" } }
+            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -eq 'Full' -or $_.Type -eq 'Database' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Database" } }, @{ Name = "BackupType"; Expression = { "1" } }
+            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -like '*Log*' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Transaction Log" } }, @{ Name = "BackupType"; Expression = { "2" } }
+            $allSqlBackupDetails += $internalFiles | Where-Object { $_.Type -like '*Differential*' } | select-object *, @{ Name = "BackupTypeDescription"; Expression = { "Database Differential" } }, @{ Name = "BackupType"; Expression = { "5" } }
         }
         else {
     		Write-Message -Level Verbose -Message "Read File headers (Read-DBABackupHeader)"		
